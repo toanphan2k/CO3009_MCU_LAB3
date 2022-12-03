@@ -1,0 +1,2 @@
+fsm_manual.c:16:6:trafficLight_manual	8	static
+fsm_manual.c:88:6:triggerLed	8	static

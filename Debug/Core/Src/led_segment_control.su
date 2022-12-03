@@ -1,0 +1,5 @@
+led_segment_control.c:14:6:display7Seg	16	static
+led_segment_control.c:118:6:update7SEG	16	static
+led_segment_control.c:154:6:updateSegmentBuffer	4	static
+led_segment_control.c:161:6:clearTrafficDisplay	8	static
+led_segment_control.c:171:6:displayTrafficLight	16	static
