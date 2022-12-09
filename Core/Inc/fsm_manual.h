@@ -10,5 +10,6 @@
 
 void trafficLight_manual();
 void triggerLed();
+void trigger7Seg();
 
 #endif /* INC_FSM_MANUAL_H_ */

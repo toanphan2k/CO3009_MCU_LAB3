@@ -15,20 +15,28 @@
 void trafficLight_manual(){
 	switch(state){
 	case SELECT_MODE_RED:
+
+		display7SegManual(segmentIndexManual);
+		if(scanFreqTimer_flag == 1){
+			update7SegBufferManual();
+			segmentIndexManual++;
+			if(segmentIndexManual >= SEGMENT_IN_A_ROW) segmentIndexManual = 0;
+			setTimerScanFreq(DURATION_FOR_5HZ);
+		}
 		isRedMode = 1;
 		isYellowMode = 0;
 		isGreenMode = 0;
 		if(isPressedAndReleased(BTN_SELECT_INDEX)){
+			tempCounter = counter_yellow;
+			update7SegBufferManual();
 			state = SELECT_MODE_YELLOW;
 		}
 		if(isPressedAndReleased(BTN_MODIFY_INDEX)){
 			state = MODIFY_PRESSED;
-			tempCounter = counter_red;
 		}
 		if(is_button_pressed(BTN_MODIFY_INDEX)){
 			if(is_button_pressed_3s(BTN_MODIFY_INDEX)){
 				state = MODIFY_LONGPRESSED;
-				tempCounter = counter_red;
 				tempCounter += 10;
 				if(tempCounter > MAX_SEGMENT_VALUE) {
 					tempCounter = 0;
@@ -45,17 +53,18 @@ void trafficLight_manual(){
 		isRedMode = 0;
 		isYellowMode = 1;
 		isGreenMode = 0;
+
 		if(isPressedAndReleased(BTN_SELECT_INDEX)){
+			tempCounter = counter_green;
+			update7SegBufferManual();
 			state = SELECT_MODE_GREEN;
 		}
 		if(isPressedAndReleased(BTN_MODIFY_INDEX)){
 			state = MODIFY_PRESSED;
-			tempCounter = counter_yellow;
 		}
 		if(is_button_pressed(BTN_MODIFY_INDEX)){
 			if(is_button_pressed_3s(BTN_MODIFY_INDEX)){
 				state = MODIFY_LONGPRESSED;
-				tempCounter = counter_yellow;
 				tempCounter += 10;
 				if(tempCounter > MAX_SEGMENT_VALUE) {
 					tempCounter = 0;
@@ -72,17 +81,19 @@ void trafficLight_manual(){
 		isRedMode = 0;
 		isYellowMode = 0;
 		isGreenMode = 1;
+
 		if(isPressedAndReleased(BTN_SELECT_INDEX)){
+			tempCounter = counter_red;
+			update7SegBufferManual();
 			state = SELECT_MODE_RED;
 		}
 		if(isPressedAndReleased(BTN_MODIFY_INDEX)){
 			state = MODIFY_PRESSED;
-			tempCounter = counter_green;
 		}
 		if(is_button_pressed(BTN_MODIFY_INDEX)){
 			if(is_button_pressed_3s(BTN_MODIFY_INDEX)){
 				state = MODIFY_LONGPRESSED;
-				tempCounter = counter_green;
+
 				tempCounter += 10;
 				if(tempCounter > MAX_SEGMENT_VALUE) {
 					tempCounter = 0;
@@ -134,14 +145,21 @@ void trafficLight_manual(){
 
 		break;
 	case SET_PRESSED:
-		if(isRedMode == 1) counter_red = tempCounter;
-		else if (isYellowMode == 1) counter_yellow = tempCounter;
-		else if (isGreenMode == 1) counter_green = tempCounter;
+		if(isRedMode == 1) counter_red = tempCounter * DIVISION_NUMBER;
+		else if (isYellowMode == 1) counter_yellow = tempCounter * DIVISION_NUMBER;
+		else if (isGreenMode == 1) counter_green = tempCounter * DIVISION_NUMBER;
 		isRedMode = 0;
 		isYellowMode = 0;
 		isGreenMode = 0;
 		isInManual = 0;
-
+		scanFreqTimer_flag = 0;
+		tempCounter = 0;
+		clear7Seg();
+		if(isPressedAndReleased(BTN_SELECT_INDEX)){
+			tempCounter = counter_red;
+			update7SegBufferManual();
+			state = SELECT_MODE_RED;
+		}
 		if(waitTimer_flag == 1){
 			state = IDLE;
 		}
@@ -182,3 +200,29 @@ void triggerLed(){
 		}
 	}
 }
+
+//void trigger7Seg(){
+////	if(isInManual == 1){
+////		if(scanFreqTimer_flag == 1){
+////			update7SegBufferManual();
+////			display7SegManual(segmentIndexManual);
+////			change7SegIndexInManual();
+////			setTimerScanFreq(DURATION_FOR_4HZ);
+////		}
+////	}
+////	else{
+////		if(scanFreqTimer_flag == 1){
+////			update7SegBufferAuto();
+////			display7SegAuto(segmentIndexAuto);
+////			change7SegIndexInAuto();
+////			setTimerScanFreq(DURATION_FOR_4HZ);
+////		}
+////	}
+//	if(scanFreqTimer_flag == 1){
+//		display7SegAuto(segmentIndexAuto);
+//		change7SegIndexInAuto();
+//		setTimerScanFreq(DURATION_FOR_4HZ);
+//	}
+//}
+
+

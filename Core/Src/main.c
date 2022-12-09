@@ -53,24 +53,42 @@ int counter_red = DEFAULT_RED_DURATION;
 int counter_yellow = DEFAULT_YELLOW_DURATION;
 int counter_green = DEFAULT_GREEN_DURATION;
 
+
+int isInManual = 0;
 int isRedMode = 0;
 int isYellowMode = 0;
 int isGreenMode = 0;
 
-int isInManual = 0;
+int wasInModify = 0;
+
 int tempCounter = 0;
+int segment1Counter = 0;
+int segment2Counter = 0;
+
+int segmentIndexAuto = 0;
+int segmentIndexManual = 0;
+
+int led_buffer_auto[MAX_LED_SEGMENT] = {0, 0, 0, 0};
+int led_buffer_manual[MAX_LED_SEGMENT] = {0, 0, 0, 0};
 
 int trafficTimer1_flag = 0;
 int trafficTimer2_flag = 0;
 int waitTimer_flag = 0;
 int modifyTimer_flag = 0;
 int timerLed_flag = 0;
+int countDownTimer1_flag = 0;
+int countDownTimer2_flag = 0;
+int scanFreqTimer_flag = 0;
 
 int timerLed_counter = 0;
 int trafficTimer1_counter = 0;
 int trafficTimer2_counter = 0;
 int waitTimer_counter = 0;
-int modifyTimer_counter =0;
+int modifyTimer_counter = 0;
+int countDownTimer1_counter = 0;
+int countDownTimer2_counter = 0;
+int scanFreqTimer_counter = 0;
+int timeCounter = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -129,6 +147,7 @@ int main(void)
 	  trafficLight_automatic();
 	  trafficLight_manual();
 	  triggerLed();
+//	  trigger7Seg();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

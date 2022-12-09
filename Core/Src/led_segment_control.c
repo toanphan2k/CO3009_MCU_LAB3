@@ -9,7 +9,7 @@
 #include "led_segment_control.h"
 #include "main.h"
 #include "global.h"
-extern int led_buffer[4];
+#include "software_timer.h"
 
 void display7Seg(int num){
 	switch(num){
@@ -115,7 +115,7 @@ void display7Seg(int num){
 	}
 }
 
-void update7SEG(int index){
+void update7Seg(int index){
 //	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, GPIO_PIN_SET);
 //	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
 //	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
@@ -148,15 +148,9 @@ void update7SEG(int index){
 	default:
 		break;
 	}
-	display7Seg(led_buffer[index]);
+	//display7Seg(led_buffer[index]);
 }
 
-void updateSegmentBuffer(){
-//	led_buffer[0] = hour/10;
-//	led_buffer[1] = hour%10;
-//	led_buffer[2] = minute/10;
-//	led_buffer[3] = minute%10;
-}
 
 void clearTrafficDisplay(){
 	HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, GPIO_PIN_RESET);
@@ -205,6 +199,83 @@ void displayTrafficLight(int light1, int light2){
 	}
 }
 
+//void change7SegIndexInManual(){
+//	segmentIndexManual++;
+//	if(segmentIndexManual >= SEGMENT_IN_A_ROW) segmentIndexManual = 0;
+//}
+//void change7SegIndexInAuto(){
+//	segmentIndexAuto++;
+//	if(segmentIndexAuto >= MAX_LED_SEGMENT) segmentIndexAuto = 0;
+//}
+void update7SegBufferAuto(){
+	if( segment1Counter < 10) led_buffer_auto[0] = 0;
+	else led_buffer_auto[0] = segment1Counter / 10;
+	led_buffer_auto[1] = segment1Counter % 10;
+	if( segment2Counter < 10) led_buffer_auto[2] = 0;
+	else led_buffer_auto[2] = segment2Counter / 10;
+	led_buffer_auto[3] = segment2Counter % 10;
+}
+void update7SegBufferManual(){
+	led_buffer_manual[0] = tempCounter / 10;
+	led_buffer_manual[1] = tempCounter % 10;
+}
+
+void display7SegAuto(int index){
+	switch(index){
+	case 0:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 1:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 2:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 3:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_RESET);
+		break;
+	default:
+		break;
+	}
+	display7Seg(led_buffer_auto[index]);
+}
+void display7SegManual(int index){
+	switch(index){
+	case 0:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 1:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	default:
+		break;
+	}
+	display7Seg(led_buffer_manual[index]);
+}
+void clear7Seg(){
+	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+}
 
 
 

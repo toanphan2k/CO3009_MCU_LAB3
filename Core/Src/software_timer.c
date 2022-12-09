@@ -30,6 +30,21 @@ void setTimerTriggerLed(int duration){
 	timerLed_flag = 0;
 }
 
+void setTimerCounter1(int duration){
+	countDownTimer1_counter = duration/TIMER_CYCLE;
+	countDownTimer1_flag = 0;
+}
+
+void setTimerCounter2(int duration){
+	countDownTimer2_counter = duration/TIMER_CYCLE;
+	countDownTimer2_flag = 0;
+}
+
+void setTimerScanFreq(int duration){
+	scanFreqTimer_counter = duration/TIMER_CYCLE;
+	scanFreqTimer_flag = 0;
+}
+
 void timer_run(){
 	if(trafficTimer1_counter >= 0){
 		trafficTimer1_counter --;
@@ -50,5 +65,17 @@ void timer_run(){
 	if(timerLed_counter >= 0){
 		timerLed_counter --;
 		if(timerLed_counter == 0) timerLed_flag = 1;
+	}
+	if(countDownTimer1_counter >= 0){
+		countDownTimer1_counter --;
+		if(countDownTimer1_counter == 0) countDownTimer1_flag = 1;
+	}
+	if(countDownTimer2_counter >= 0){
+		countDownTimer2_counter --;
+		if(countDownTimer2_counter == 0) countDownTimer2_flag = 1;
+	}
+	if(scanFreqTimer_counter >= 0){
+		scanFreqTimer_counter --;
+		if(scanFreqTimer_counter == 0) scanFreqTimer_flag = 1;
 	}
 }
