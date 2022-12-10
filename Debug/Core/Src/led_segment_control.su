@@ -3,7 +3,7 @@ led_segment_control.c:118:6:update7Seg	16	static
 led_segment_control.c:155:6:clearTrafficDisplay	8	static
 led_segment_control.c:165:6:displayTrafficLight	16	static
 led_segment_control.c:210:6:update7SegBufferAuto	4	static
-led_segment_control.c:218:6:update7SegBufferManual	4	static
-led_segment_control.c:223:6:display7SegAuto	16	static
-led_segment_control.c:254:6:display7SegManual	16	static
-led_segment_control.c:273:6:clear7Seg	8	static
+led_segment_control.c:217:6:update7SegBufferManual	4	static
+led_segment_control.c:227:6:display7SegAuto	16	static
+led_segment_control.c:258:6:display7SegManual	16	static
+led_segment_control.c:289:6:clear7Seg	8	static

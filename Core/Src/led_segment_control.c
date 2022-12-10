@@ -211,13 +211,17 @@ void update7SegBufferAuto(){
 	if( segment1Counter < 10) led_buffer_auto[0] = 0;
 	else led_buffer_auto[0] = segment1Counter / 10;
 	led_buffer_auto[1] = segment1Counter % 10;
-	if( segment2Counter < 10) led_buffer_auto[2] = 0;
-	else led_buffer_auto[2] = segment2Counter / 10;
-	led_buffer_auto[3] = segment2Counter % 10;
+	led_buffer_auto[2] = 0;
+	led_buffer_auto[3] = 1;
 }
 void update7SegBufferManual(){
 	led_buffer_manual[0] = tempCounter / 10;
 	led_buffer_manual[1] = tempCounter % 10;
+	led_buffer_manual[2] = 0;
+	if(isRedMode) led_buffer_manual[3] = 1;
+	else if (isYellowMode) led_buffer_manual[3] = 1;
+	else if (isGreenMode) led_buffer_manual[3] = 1;
+	else led_buffer_manual[3] = 0;
 }
 
 void display7SegAuto(int index){
@@ -264,6 +268,18 @@ void display7SegManual(int index){
 		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
 		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 2:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_SET);
+		break;
+	case 3:
+		HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(EN4_GPIO_Port, EN4_Pin, GPIO_PIN_RESET);
 		break;
 	default:
 		break;

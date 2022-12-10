@@ -147,7 +147,6 @@ int main(void)
 	  trafficLight_automatic();
 	  trafficLight_manual();
 	  triggerLed();
-//	  trigger7Seg();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
